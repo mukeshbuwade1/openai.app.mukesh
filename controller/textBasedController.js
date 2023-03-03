@@ -1,7 +1,7 @@
 const { Configuration, OpenAIApi } = require("openai");
 
 let apiKey = process.env.OPENAI_API_KEY
-console.log("first", apiKey)
+
 const configuration = new Configuration({
     apiKey
 });
@@ -19,16 +19,13 @@ async function callFunction(text) {
             presence_penalty: 0,
         });
         if (response?.data?.choices) {
-            console.log(" response?.data?.choices", response?.data?.choices)
-            console.log(" response?.data?.choices", response?.data?.usage)
             return { error: false, message: "success", data: { answer: response.data.choices } }
         } else {
-            console.log("response", response)
             return { error: true, message: "failed in try", data: {} }
         }
     } catch (error) {
         console.log("ERROR", error)
-        return { error: true, message: "error in catch", data: error }
+        return { error: true, message: "error in catch", apikey:apiKey, text:text ,data: error }
     }
 }
 
