@@ -13,7 +13,7 @@ async function callFunction(text) {
             model: "text-davinci-003",
             prompt: text,
             temperature: 0.3,
-            max_tokens: 100,
+            max_tokens: 500,
             top_p: 1,
             frequency_penalty: 0,
             presence_penalty: 0,
@@ -25,7 +25,7 @@ async function callFunction(text) {
         }
     } catch (error) {
         console.log("ERROR", error)
-        return { error: true, message: "error in catch", apikey:apiKey, text:text ,data: error }
+        return { error: true, message: "error in catch",data: error }
     }
 }
 
@@ -39,9 +39,8 @@ const createAnswer = async(req, res) => {
 
         if (apiKey) {
             let ai_res = await callFunction(question)
-            console.log("ai res", ai_res)
             if (ai_res.error) {
-                res.status(200).send({...ai_res})
+                res.status(ai_res?.data?.status||200).send({...ai_res})
             } else {
                 res.status(200).send({...ai_res})
             }

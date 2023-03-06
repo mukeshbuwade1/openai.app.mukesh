@@ -1,6 +1,7 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const dotenv = require('dotenv')
+var cors = require('cors')
 
 // env config 
 dotenv.config()
@@ -10,6 +11,7 @@ const server = express();
 
 // middleware 
 server.use(bodyParser.json());
+server.use(cors()) 
 
 // route 
 server.use("/ai/v1/user", require("./route/textBasedRoute"))
